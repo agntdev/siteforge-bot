@@ -12,6 +12,7 @@
     "build:worker": "npm run gen:handlers && npm run typecheck:worker && esbuild src/worker.ts --bundle --format=esm --platform=neutral --conditions=worker,browser --external:node:* --outfile=dist/worker.js && node scripts/check-worker-bundle.mjs"
   },
   "dependencies": {
+    "fflate": "^0.8.3",
     "grammy": "^1.30.0",
     "ioredis": "^5.4.1"
   },

@@ -9,8 +9,12 @@ import { inlineButton, inlineKeyboard } from "../toolkit/index.js";
 const composer = new Composer<Ctx>();
 
 const HELP =
-  "ℹ️ Tap /start to open the menu, then pick what you want from the buttons.\n\n" +
-  "Everything in this bot is reachable by tapping — you don't need to remember any commands.";
+  "ℹ️ How this bot works\n\n" +
+  "1. Tap /start, then Create site.\n" +
+  "2. Answer a few questions (name, type, pages, colors, features, stack, notes).\n" +
+  "3. Confirm the summary — I build your project and send it as a ZIP.\n" +
+  "4. Want changes? Tap Tweak on the result and adjust any field.\n\n" +
+  "Everything is reached by tapping buttons — no commands to remember.";
 
 const backToMenu = inlineKeyboard([[inlineButton("⬅️ Back to menu", "menu:main")]]);
 

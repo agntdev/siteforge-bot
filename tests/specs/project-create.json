@@ -1,19 +1,211 @@
 [
   {
-    "name": "Create site",
+    "name": "Create site button opens the form",
     "steps": [
       {
+        "send": { "callback": "project:create", "chatId": 1001, "userId": 1001 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Let's set up your site.\n\nWhat should we call it? Type the project name below."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "End-to-end static site generation",
+    "steps": [
+      {
+        "send": { "callback": "project:create", "chatId": 1001, "userId": 1001 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Let's set up your site.\n\nWhat should we call it? Type the project name below."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "text": "My Site", "chatId": 1001, "userId": 1001 },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": { "text": "Great, \"My Site\"! What kind of site is it?" }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "form:type:landing", "chatId": 1001, "userId": 1001 },
+        "expect": [{ "method": "editMessageText", "payload": { "text": "Which pages do you want?" } }]
+      },
+      {
+        "send": { "callback": "form:pages:home-about-contact", "chatId": 1001, "userId": 1001 },
+        "expect": [{ "method": "editMessageText", "payload": { "text": "Pick a color scheme." } }]
+      },
+      {
+        "send": { "callback": "form:color:blue", "chatId": 1001, "userId": 1001 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Which features should I include? Tap to toggle, then Done."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "form:feature:done", "chatId": 1001, "userId": 1001 },
+        "expect": [{ "method": "editMessageText", "payload": { "text": "Which stack do you want?" } }]
+      },
+      {
+        "send": { "callback": "form:stack:static", "chatId": 1001, "userId": 1001 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Any extra notes for the build? Type them below, or tap Skip."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "form:notes:skip", "chatId": 1001, "userId": 1001 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "📋 Here's your project:\n\n• Name: My Site\n• Type: Landing page\n• Pages: Home, About, Contact\n• Colors: Blue\n• Features: none\n• Stack: Static HTML/CSS/JS\n• Notes: —\n\nLooks good? Tap Generate to build and zip it."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "form:confirm:yes", "chatId": 1001, "userId": 1001 },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Initiates structured form for project requirements"
+              "text": "✅ Your site is ready!\n\nUnzip it and follow README.md to run it. Want changes? Tap ✏️ Tweak or 🔄 Regenerate."
+            }
+          },
+          { "method": "sendDocument" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Regenerate workflow with tweaked parameters",
+    "steps": [
+      {
+        "send": { "callback": "project:create", "chatId": 1002, "userId": 1002 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Let's set up your site.\n\nWhat should we call it? Type the project name below."
             }
           }
-        ],
-        "send": {
-          "callback": "project:create"
-        }
+        ]
+      },
+      {
+        "send": { "text": "Tweaky", "chatId": 1002, "userId": 1002 },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Great, \"Tweaky\"! What kind of site is it?" } }
+        ]
+      },
+      {
+        "send": { "callback": "form:type:business", "chatId": 1002, "userId": 1002 },
+        "expect": [{ "method": "editMessageText", "payload": { "text": "Which pages do you want?" } }]
+      },
+      {
+        "send": { "callback": "form:pages:home", "chatId": 1002, "userId": 1002 },
+        "expect": [{ "method": "editMessageText", "payload": { "text": "Pick a color scheme." } }]
+      },
+      {
+        "send": { "callback": "form:color:dark", "chatId": 1002, "userId": 1002 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Which features should I include? Tap to toggle, then Done."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "form:feature:done", "chatId": 1002, "userId": 1002 },
+        "expect": [{ "method": "editMessageText", "payload": { "text": "Which stack do you want?" } }]
+      },
+      {
+        "send": { "callback": "form:stack:node-express", "chatId": 1002, "userId": 1002 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Any extra notes for the build? Type them below, or tap Skip."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "form:notes:skip", "chatId": 1002, "userId": 1002 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "📋 Here's your project:\n\n• Name: Tweaky\n• Type: Business site\n• Pages: Home\n• Colors: Dark\n• Features: none\n• Stack: Node / Express\n• Notes: —\n\nLooks good? Tap Generate to build and zip it."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "form:confirm:yes", "chatId": 1002, "userId": 1002 },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "✅ Your site is ready!\n\nUnzip it and follow README.md to run it. Want changes? Tap ✏️ Tweak or 🔄 Regenerate."
+            }
+          },
+          { "method": "sendDocument" }
+        ]
+      },
+      {
+        "send": { "callback": "project:tweak", "chatId": 1002, "userId": 1002 },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "What would you like to change?" } }
+        ]
+      },
+      {
+        "send": { "callback": "tweak:field:type", "chatId": 1002, "userId": 1002 },
+        "expect": [{ "method": "editMessageText", "payload": { "text": "Pick a new type." } }]
+      },
+      {
+        "send": { "callback": "form:type:landing", "chatId": 1002, "userId": 1002 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "📋 Here's your project:\n\n• Name: Tweaky\n• Type: Landing page\n• Pages: Home\n• Colors: Dark\n• Features: none\n• Stack: Node / Express\n• Notes: —\n\nLooks good? Tap Generate to build and zip it."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "callback": "form:confirm:yes", "chatId": 1002, "userId": 1002 },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "✅ Your site is ready!\n\nUnzip it and follow README.md to run it. Want changes? Tap ✏️ Tweak or 🔄 Regenerate."
+            }
+          },
+          { "method": "sendDocument" }
+        ]
       }
     ]
   }

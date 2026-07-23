@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Settings button is owner-only and tells non-owners how to claim it",
+    "steps": [
+      {
+        "send": { "callback": "settings:show", "chatId": 2001, "userId": 2001 },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "⚙️ Settings are owner-only.\n\nIf you run this bot, set ADMIN_CHAT_ID to your Telegram chat id to unlock controls."
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
