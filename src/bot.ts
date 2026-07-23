@@ -6,7 +6,47 @@ import type { StorageAdapter } from "grammy";
 // bot grows. Durable domain data must NOT live here — use the toolkit's
 // persistent storage (see AGENTS.md).
 export interface Session {
-  // example: step?: "awaiting_amount";
+  // Create-site form flow state machine. `idle` means no flow in progress.
+  step:
+    | "idle"
+    | "form:name"
+    | "form:type"
+    | "form:pages"
+    | "form:colors"
+    | "form:colors-custom"
+    | "form:features"
+    | "form:stack"
+    | "form:notes"
+    | "form:confirm"
+    | "tweak:menu"
+    | "tweak:name"
+    | "tweak:type"
+    | "tweak:pages"
+    | "tweak:colors"
+    | "tweak:features"
+    | "tweak:stack"
+    | "tweak:notes"
+    | "tweak:confirm"
+    | "settings:rate-limit"
+    | "settings:retention";
+
+  // Partial project request being built. Each form step fills a field.
+  draft?: {
+    name?: string;
+    type?: import("./generator.js").SiteType;
+    pages?: string[];
+    colors?: { scheme: import("./generator.js").ColorScheme; custom?: string };
+    features?: string[];
+    target_stack?: import("./generator.js").Stack;
+    notes?: string;
+  };
+
+  // Id of the last fully-generated request for this chat (used by the
+  // regenerate/tweak flow). The durable record itself lives in the store.
+  lastRequestId?: string;
+
+  // Flow timeout (epoch ms) — an abandoned flow resets to idle.
+  expiresAt?: number;
 }
 
 export type Ctx = BotContext<Session>;
@@ -44,7 +84,7 @@ export interface BuildBotOptions {
  */
 export async function buildBot(token: string, opts: BuildBotOptions = {}) {
   const bot = createBot<Session>(token, {
-    initial: () => ({}),
+    initial: () => ({ step: "idle" }),
     storage: opts.storage,
     telemetryEnv: opts.telemetryEnv,
     telemetryReporterOptions: opts.telemetryReporterOptions,

@@ -7,9 +7,20 @@
         "expect": [
           {
             "method": "sendMessage",
-            "payload": { "text": "👋 Welcome! Tap a button below to get started." }
+            "payload": {
+              "text": "👋 Welcome to the Website Code Generator!\n\nI'll ask a few questions about your site, then build a ready-to-run project and send it as a ZIP you can download. Tap a button to get started."
+            }
           }
         ]
+      }
+    ]
+  },
+  {
+    "name": "Back to menu re-renders the welcome",
+    "steps": [
+      {
+        "send": { "callback": "menu:main" },
+        "expect": [{ "method": "editMessageText" }]
       }
     ]
   }
