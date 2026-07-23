@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Create site",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Initiates structured form for project requirements"
+            }
+          }
+        ],
+        "send": {
+          "callback": "project:create"
+        }
+      }
+    ]
+  }
+]
